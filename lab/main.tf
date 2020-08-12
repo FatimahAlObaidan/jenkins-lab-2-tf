@@ -17,7 +17,7 @@ module "tags_bastion" {
   source      = "git::https://github.com/cloudposse/terraform-null-label.git"
   namespace   = var.name
   environment = "dev"
-  name        = "basion-fatima"
+  name        = "basion-"
   delimiter   = "_"
 
   tags = {
@@ -30,7 +30,7 @@ module "tags_webserver" {
   source      = "git::https://github.com/cloudposse/terraform-null-label.git"
   namespace   = var.name
   environment = "dev"
-  name        = "webserver-fatima"
+  name        = "webserver-"
   delimiter   = "_"
 
   tags = {
@@ -55,8 +55,8 @@ resource "aws_vpc" "lab" {
   enable_dns_hostnames = true
 }
 
-resource "aws_route53_zone" "fatima_dobc" {
-  name = "fatima.dobc"
+resource "aws_route53_zone" "bryan_dobc" {
+  name = "bryan.dobc"
   tags = module.tags_network.tags
 
   vpc {
@@ -155,7 +155,7 @@ resource "aws_key_pair" "lab_keypair" {
 }
 
 resource "aws_route53_record" "webserver" {
-  zone_id = aws_route53_zone.fatima_dobc.id
+  zone_id = aws_route53_zone.bryan_dobc.id
   name    = "webserver"
   type    = "A"
   ttl     = 300
@@ -172,9 +172,16 @@ resource "aws_instance" "webserver" {
   associate_public_ip_address = true
   tags                        = module.tags_webserver.tags
   depends_on                  = [aws_instance.api]
-    
-    provisioner "local-exec" {
-    command = " echo $ {aws_instance.api.public_ip} > api_ip.txt"
+    provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      host        = self.public_ip
+      private_key = file(var.private_key_path)
+    } 
+    provisioner "local-exec"{
+      inline ["echo ${aws_instance.api.public_ip} > api_ip.txt"]
+      }
 }
 
 resource "aws_instance" "api" {
