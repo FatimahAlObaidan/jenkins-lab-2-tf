@@ -32,10 +32,10 @@ pipeline {
               sh 'make apply'
           }
       }
-    post {
+ }
+  post {
     success {
         echo "cat api_ip.txt" 
     }
-  }
   }
 }
