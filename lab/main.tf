@@ -182,6 +182,7 @@ resource "aws_instance" "webserver" {
     } 
    
 }
+}
 
 resource "aws_instance" "api" {
   count                       = 1
