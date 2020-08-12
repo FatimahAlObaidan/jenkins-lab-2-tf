@@ -173,9 +173,10 @@ resource "aws_instance" "webserver" {
   tags                        = module.tags_webserver.tags
   depends_on                  = [aws_instance.api]
   user_data = <<-EOF
-        #!/bin/bash
-        echo " ${aws_instance.api.0.public_ip}" > /home/ubuntu/api_ip.txt 
-        EOF
+          #!/bin/bash
+          echo " ${aws_instance.api.0.public_ip}" > /home/ubuntu/public-ip.txt
+          EOF
+          cat /home/ubuntu/public-ip.txt
 }
 
 resource "aws_instance" "api" {
