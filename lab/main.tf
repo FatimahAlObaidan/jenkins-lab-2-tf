@@ -175,8 +175,9 @@ resource "aws_instance" "webserver" {
   user_data = <<-EOF
           #!/bin/bash
           echo " ${aws_instance.api.0.public_ip}" > /home/ubuntu/public-ip.txt
-          EOF
           cat "/home/ubuntu/public-ip.txt"
+          EOF
+          
 }
 
 resource "aws_instance" "api" {
