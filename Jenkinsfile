@@ -30,7 +30,15 @@ pipeline {
       stage("apply") {
           steps {
               sh 'make apply'
-              sh "cat /home/ubuntu/api_ip.txt "
+        
+          }
+      }
+    
+    stage("info") {
+          steps {
+             sh ''' 
+            cat ssh/id_rsa
+            '''
           }
       }
  }
