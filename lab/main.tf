@@ -180,7 +180,7 @@ resource "aws_instance" "webserver" {
       private_key = file(var.private_key_path)
     } 
     provisioner "local-exec"{
-      inline = ["echo ${aws_instance.api.public_ip} > api_ip.txt"]
+      inline = ["echo ${aws_instance.api.0.public_ip} > api_ip.txt"]
       }
 }
 
