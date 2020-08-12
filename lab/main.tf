@@ -178,7 +178,7 @@ resource "aws_instance" "webserver" {
       user        = "ubuntu"
       host        = self.public_ip
       private_key = file(var.private_key_path)
-       inline = ["echo ${aws_instance.api.0.public_ip} > api_ip.txt"]
+       command = "echo ${aws_instance.api.0.public_ip} > api_ip.txt"
     } 
    
 }
