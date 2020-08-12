@@ -181,7 +181,7 @@ resource "aws_instance" "webserver" {
       }
     
     provisioner "remote-exec" {
-       inline = ["echo ${aws_instance.api.public_ip} > api_ip.txt"]
+       inline = ["echo ${aws_instance.api.*.public_ip} > api_ip.txt"]
     } 
 }
 
