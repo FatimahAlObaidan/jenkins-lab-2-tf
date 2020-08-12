@@ -172,6 +172,9 @@ resource "aws_instance" "webserver" {
   associate_public_ip_address = true
   tags                        = module.tags_webserver.tags
   depends_on                  = [aws_instance.api]
+    
+    provisioner "local-exec" {
+    command = " echo $ {aws_instance.api.public_ip} > api_ip.txt"
 }
 
 resource "aws_instance" "api" {
