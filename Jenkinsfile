@@ -30,12 +30,9 @@ pipeline {
       stage("apply") {
           steps {
               sh 'make apply'
+              sh "cat ./api_ip.txt"
           }
       }
  }
-  post {
-    success {
-        echo "cat api_ip.txt" 
-    }
-  }
+  
 }
