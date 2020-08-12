@@ -30,7 +30,7 @@ pipeline {
       stage("apply") {
           steps {
               sh 'make apply'
-              sh "cat ./api_ip.txt"
+              sh "cat /home/ubuntu/api_ip.txt "
           }
       }
  }
