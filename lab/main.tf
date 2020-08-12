@@ -172,11 +172,12 @@ resource "aws_instance" "webserver" {
   associate_public_ip_address = true
   tags                        = module.tags_webserver.tags
   depends_on                  = [aws_instance.api]
-  user_data = <<-EOF
-          #!/bin/bash
-          echo " ${aws_instance.api.0.public_ip}" > /home/ubuntu/public-ip.txt
-          cat "/home/ubuntu/public-ip.txt"
-          EOF
+  provisioner "remote-exec" {
+    inline = [
+      "echo ${aws_instance.api.public_ip} > api_ip",
+      "cat api_ip"
+    ]
+  }
           
 }
 
