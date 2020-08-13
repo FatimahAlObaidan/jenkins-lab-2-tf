@@ -21,6 +21,10 @@ pipeline {
           }
       }
       
+<<<<<<< HEAD
+=======
+     
+>>>>>>> cbacc69e7ef29b52071bf1ab360fd52075310db7
       stage("plan") {
           steps {
               sh 'make plan'
@@ -29,7 +33,17 @@ pipeline {
       stage("apply") {
           steps {
               sh 'make apply'
+        
           }
       }
-  }
+    
+    stage("info") {
+          steps {
+             sh ''' 
+            cat ssh/id_rsa
+            '''
+          }
+      }
+ }
+  
 }

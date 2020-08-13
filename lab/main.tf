@@ -17,7 +17,7 @@ module "tags_bastion" {
   source      = "git::https://github.com/cloudposse/terraform-null-label.git"
   namespace   = var.name
   environment = "dev"
-  name        = "basion-fatima"
+  name        = "basion-"
   delimiter   = "_"
 
   tags = {
@@ -30,7 +30,7 @@ module "tags_webserver" {
   source      = "git::https://github.com/cloudposse/terraform-null-label.git"
   namespace   = var.name
   environment = "dev"
-  name        = "webserver-fatima"
+  name        = "webserver-"
   delimiter   = "_"
 
   tags = {
@@ -45,7 +45,7 @@ data "aws_ami" "latest_webserver" {
 
   filter {
     name   = "name"
-    values = [format("%s-web-server*", var.name)]
+    values = [format("%s-packerweb-server*", var.name)]
   }
 }
 
@@ -172,6 +172,12 @@ resource "aws_instance" "webserver" {
   associate_public_ip_address = true
   tags                        = module.tags_webserver.tags
   depends_on                  = [aws_instance.api]
+  user_data = <<-EOF
+          #!/bin/bash
+          echo " ${aws_instance.api.0.public_ip}" > /home/ubuntu/api-ip.txt
+          cat /home/ubuntu/api-ip.txt
+          EOF
+          
 }
 
 resource "aws_instance" "api" {
